@@ -26,4 +26,12 @@ app.MapGet("/api/users/{userPrincipalName}", async (string userPrincipalName, Gr
 .WithName("GetUserByUserPrincipalName")
 .WithOpenApi();
 
+app.MapPost("/api/users/batch", async (List<string> userPrincipalNames, GraphService graphService) =>
+{
+	var users = await graphService.GetUserListAsync(userPrincipalNames);
+	return Results.Ok(users);
+})
+.WithName("GetUserListByUserPrincipalNames")
+.WithOpenApi();
+
 app.Run();

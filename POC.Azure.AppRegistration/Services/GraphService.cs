@@ -31,5 +31,14 @@ namespace POC.Azure.AppRegistration.Services
 		{
 			return await _graphClient.Users[userPrincipalName].GetAsync();
 		}
+
+		public async Task<List<User>> GetUserListAsync(List<string> userPrincipalNames)
+		{
+			var tasks = userPrincipalNames.Select(upn => _graphClient.Users[upn].GetAsync()).ToArray();
+			var users = await Task.WhenAll(tasks);
+
+			return [.. users];
+		}
+
 	}
 }
