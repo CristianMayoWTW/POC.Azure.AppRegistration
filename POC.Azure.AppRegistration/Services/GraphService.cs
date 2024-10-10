@@ -28,11 +28,21 @@ namespace POC.Azure.AppRegistration.Services
 			_graphClient = new GraphServiceClient(tokenCredential, scopes);
 		}
 
+		/// <summary>
+		/// Get the details of a user by user principal name
+		/// </summary>
+		/// <param name="userPrincipalName">User's username in a form of email</param>
+		/// <returns></returns>
 		public async Task<User?> GetUserDetailsAsync(string userPrincipalName)
 		{
 			return await _graphClient.Users[userPrincipalName].GetAsync();
 		}
 
+		/// <summary>
+		/// Get the list of users by user principal names
+		/// </summary>
+		/// <param name="userPrincipalNames">List of user's username in a form of email</param>
+		/// <returns></returns>
 		public async Task<List<User>> GetUserListAsync(List<string> userPrincipalNames)
 		{
 			var tasks = userPrincipalNames.Select(upn => _graphClient.Users[upn].GetAsync()).ToArray();
