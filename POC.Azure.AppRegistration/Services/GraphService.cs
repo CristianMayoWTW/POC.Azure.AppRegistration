@@ -8,7 +8,6 @@ namespace POC.Azure.AppRegistration.Services
 	// Create a GraphService class to encapsulate the Graph SDK logic
 	public class GraphService
 	{
-		private readonly IConfidentialClientApplication _clientApp;
 		private readonly GraphServiceClient _graphClient;
 		private static readonly string[] scopes = ["https://graph.microsoft.com/.default"];
 
@@ -17,11 +16,6 @@ namespace POC.Azure.AppRegistration.Services
 			var clientId = configuration["AzureAd:ClientId"];
 			var tenantId = configuration["AzureAd:TenantId"];
 			var clientSecret = configuration["AzureAd:ClientSecret"];
-
-			_clientApp = ConfidentialClientApplicationBuilder.Create(clientId)
-				.WithClientSecret(clientSecret)
-				.WithAuthority(new Uri($"https://login.microsoftonline.com/{tenantId}"))
-				.Build();
 
 			var tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
