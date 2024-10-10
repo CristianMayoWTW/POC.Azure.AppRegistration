@@ -10,6 +10,7 @@ namespace POC.Azure.AppRegistration.Services
 	{
 		private readonly IConfidentialClientApplication _clientApp;
 		private readonly GraphServiceClient _graphClient;
+		private static readonly string[] scopes = ["https://graph.microsoft.com/.default"];
 
 		public GraphService(IConfiguration configuration)
 		{
@@ -24,7 +25,7 @@ namespace POC.Azure.AppRegistration.Services
 
 			var tokenCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 
-			_graphClient = new GraphServiceClient(tokenCredential);
+			_graphClient = new GraphServiceClient(tokenCredential, scopes);
 		}
 
 		public async Task<User?> GetUserDetailsAsync(string userPrincipalName)
